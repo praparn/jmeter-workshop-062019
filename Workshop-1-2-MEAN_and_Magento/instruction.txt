@@ -1,0 +1,188 @@
+============================================================================================
+Lab Description
+============================================================================================
+Machine name		            			        Roles:						IP Address: (Private)		IP Address: (Public)       SSH
+Training_NodeJS_Scaling_StudentGX_1    	            Load Test Machine			X.X.X.X 					X.X.X.X     		        ssh -i "XXXX.pem" ubuntu@X.X.X.X
+Training_NodeJS_Scaling_StudentGX_2                 MEAN.JS                     X.X.X.X 				    X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X
+Training_NodeJS_Scaling_StudentGX_3       	        Magento                     X.X.X.X 					X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X         
+============================================================================================
+
+Part0 : Start Performance Test (Load Test Machine)
+============================================================================================
+0. In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
+    vncserver -kill :1
+    vncserver -geometry 1600x900 :1
+
+1. Open Jmeter GUI (If disapper. Please run
+   sed -i -e 's/"${HEAP:="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m"}"/"${HEAP:="-Xms2g -Xmx2g -XX:MaxMetaspaceSize=512m"}"/g' /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
+   /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
+
+============================================================================================
+Step 1: Setup MEAN.JS (MEAN.JS Machine)
+============================================================================================
+0. (MEAN.JS) Install performance monitor tools
+sudo apt-get update && sudo apt-get install iptraf blktrace nicstat linux-tools-common linux-tools-generic systemtap trace-cmd tiptop msr-tools smartmontools sysstat -y && apt install perf-tools-unstable
+sudo curl https://s3.amazonaws.com/download.draios.com/stable/install-sysdig -o install-sysdig && cat ./install-sysdig | sudo bash
+sudo sed -i -e 's/false/true/g' /etc/default/sysstat
+sudo sed -i -e 's/5-55/*/g' /etc/cron.d/sysstat
+sudo sed -i -e 's/10/2/g' /etc/cron.d/sysstat
+
+1. (MEAN.JS) Clone meanstack by command: 
+    cd ~/
+    git clone https://github.com/meanjs/mean.git meanjs
+    cd meanjs/
+
+2. (MEAN.JS) Edit dockerfile before operate by command:
+    sed -i -e 's/FROM ubuntu:latest/FROM ubuntu:16.04/g' Dockerfile-production
+    sed -i -e 's/FROM ubuntu:latest/FROM ubuntu:16.04/g' Dockerfile
+
+3. (MEAN.JS) Start basic meanstack by command:
+    docker image build -t mean .
+    docker container run -dt -p 27017:27017 -d --name db mongo
+    docker container run -dt -p 80:3000 -p 35729:35729 --link db:db_1 --name mean mean
+    docker container ls
+    docker logs -f mean
+
+    *Remark: 
+        3.1 Wait until mean ready with simple log below
+        3.2 In case need to remove and redeploy please kindly following command below:
+            docker stop mean db && docker rm mean db
+
+---------------------------------------------------------------------------------------------
+MEAN.JS - Development Environment
+
+Environment:     development
+Server:          http://0.0.0.0:3000
+Database:        mongodb://172.17.0.2/mean-dev
+App version:     0.6.0
+MEAN.JS version: 0.6.0
+---------------------------------------------------------------------------------------------
+
+4. (MEAN.JS) Test access web from url: http://<public ip of WebServer Docker> and Signup with your account
+
+5. (MEAN.JS) Pull image need for monitor by command:
+    docker image pull mongo-express:0.49
+    docker image pull labdocker/cadvisor:latest
+
+6. (MEAN.JS) Run mongo-express for provide mongodb webgui by command:
+    docker container run -dt -p 8081:8081 --link db:mongo --name webmongo mongo-express:0.49
+
+7. (MEAN.JS) Start monitoring dashboard for performance analysis by command:
+	docker container run \
+	--mount type=bind,source=/var/run,target=/var/run \
+	--mount type=bind,source=/sys,target=/sys,readonly \
+	--mount type=bind,source=/var/lib/docker,target=/var/lib/docker,readonly \
+	--publish=8080:8080 \
+	--detach=true \
+	--name=cadvisor \
+	labdocker/cadvisor:latest
+
+8. (MEAN.JS) Check meanjs, open cadvisor and mongoexpress by webbrowser:
+    Open url: http://<public ip of MEAN.JS>        ==> for MEAN Application
+    Open url: http://<public ip of MEAN.JS>:8080   ==> for cAdvisor
+    Open url: http://<public ip of MEAN.JS>:8081   ==> for Mongo-express
+    
+*Remark:
+    Case Roll Back:
+        docker stop mean webmongo cadvisor db
+        docker rm mean webmongo cadvisor db
+
+============================================================================================
+Step 2: Setup Magento (Magento)
+============================================================================================
+0. (Magento) Install performance monitor tools
+sudo apt-get update && sudo apt-get install iptraf blktrace nicstat linux-tools-common linux-tools-generic systemtap trace-cmd tiptop msr-tools smartmontools sysstat -y && apt install perf-tools-unstable
+sudo curl https://s3.amazonaws.com/download.draios.com/stable/install-sysdig -o install-sysdig && cat ./install-sysdig | sudo bash
+sudo sed -i -e 's/false/true/g' /etc/default/sysstat
+sudo sed -i -e 's/5-55/*/g' /etc/cron.d/sysstat
+sudo sed -i -e 's/10/2/g' /etc/cron.d/sysstat
+
+1. (Magento) Pull image by command: 
+    docker image pull bitnami/mariadb:latest
+    docker image pull bitnami/magento:latest
+    docker image pull bitnami/phpmyadmin:latest
+    docker image pull labdocker/cadvisor:latest
+    docker image pull navicat/navicatmonitor
+
+2. (Magento) Run docker container mariadb by command:
+    docker run -dt --name mariadb \
+    -e MARIADB_USER=magento \
+    -e MARIADB_PASSWORD=magento \
+    -e MARIADB_DATABASE=magento \
+    -e MARIADB_ROOT_PASSWORD=P@ssw0rd \
+    -p 3306:3306 \
+     bitnami/mariadb:latest
+
+3. (Magento) Run docker container magento by command:
+    docker run -dt --name magento -p 80:80 \
+    -e MAGENTO_DATABASE_USER=magento \
+    -e MAGENTO_DATABASE_PASSWORD=magento \
+    -e MAGENTO_DATABASE_NAME=magento \
+    -e MAGENTO_HOST=<Public IP> --link mariadb:bitnami_magento bitnami/magento:latest           ==> Add Public IP
+
+    Ex:
+    docker run -dt --name magento -p 80:80 \
+    -e MAGENTO_DATABASE_USER=magento \
+    -e MAGENTO_DATABASE_PASSWORD=magento \
+    -e MAGENTO_DATABASE_NAME=magento \
+    -e MAGENTO_HOST="3.0.95.16" --link mariadb:bitnami_magento bitnami/magento:latest   
+
+    *Remark:
+    DB Name: magento
+    DB Username: magento
+    DB Password: magento
+    Root Password: P@ssw0rd
+
+4. (Magento) Run docker container phpmyadmin by command:
+    docker run -dt --name phpmyadmin -p 8081:80 \
+    -e DATABASE_HOST=mariadb \
+    -e DATABASE_PORT_NUMBER=3306 \
+    -e PHPMYADMIN_ALLOW_NO_PASSWORD=false \
+    --link mariadb:mariadb \
+    bitnami/phpmyadmin:latest
+
+5. (Magento) Run Percona container by command
+    docker run -dt --name navicat -p 8082:3000 --link mariadb:mariadb navicat/navicatmonitor
+
+6. (Magento) Run monitoring dashboard for performance analysis by command:
+	docker container run \
+	--mount type=bind,source=/var/run,target=/var/run \
+	--mount type=bind,source=/sys,target=/sys,readonly \
+	--mount type=bind,source=/var/lib/docker,target=/var/lib/docker,readonly \
+	--publish=8080:8080 \
+	--detach=true \
+	--name=cadvisor \
+	labdocker/cadvisor:latest
+
+7. (Magento) Check logging of Magento:
+    docker logs -f magento
+    ****************************************************************************************
+magento INFO  Flushing cache...
+magento INFO  Cleaning up cache folders after installing
+magento INFO 
+magento INFO  ########################################################################
+magento INFO   Installation parameters for magento:
+magento INFO     Username: user
+magento INFO     Site URL: http://13.250.47.131/
+magento INFO     Admin URL: http://13.250.47.131/admin
+magento INFO   This installation requires no credentials.
+magento INFO  ########################################################################
+magento INFO 
+nami    INFO  magento successfully initialized
+    ****************************************************************************************
+
+8. (Magento) Open phpmyadmin and get username/password of Magento:
+    Open url: http://<public ip of Magento>:8081   ==> for phpmyadmin   (username:root, password: P@ssw0rd)
+
+9. (Magento) Open Navicat for initial configuration:
+    Open url: http://<public ip of Magento>:8082   ==> for navicat
+
+8. (Magento) Open url for website
+    Open url: http://<public ip of Magento>        ==> for Magento Application
+    Open url: http://<public ip of Magento>/admin  ==> for Magento Application (Admin Page) (User: user, Password: bitnami1)
+    Open url: http://<public ip of Magento>:8080   ==> for cAdvisor
+    
+*Remark:
+    Case Roll Back:
+        docker stop magento cadvisor phpmyadmin navicat mariadb
+        docker rm magento cadvisor phpmyadmin navicat mariadb
