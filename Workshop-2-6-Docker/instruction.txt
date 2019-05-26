@@ -13,9 +13,11 @@ Part 1: Instll Plugin Manager / Open JMeter
    /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
 
 ============================================================================================
-Part 2: Check and Install Plugin via Plugin Manager
+Part 2: Build Image of Docker for JMeter
 ============================================================================================
-1. (Load Test Machine) Reopen JMeter after install plugins
+1. (Load Test Machine) Build docker image for JMeter by command:
+    docker build -t jmeter ./Workshop-2-6-Docker
+
 
 2. (Load Test Machine) Choose menu "Options" ==> "Plugins Manager"
 
