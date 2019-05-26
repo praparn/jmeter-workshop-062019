@@ -1,8 +1,9 @@
 ============================================================================================
-Part 1: Instll Plugin Manager / Open JMeter 
+Part 1: Pull Resource and Open JMeter
 ============================================================================================
-1. (Load Test Machine) Download JAR file command: 
-    curl https://raw.githubusercontent.com/praparn/jmeter-workshop-062019/master/Workshop-2-5-Plugin/jmeter-plugins-manager-1.3.jar > ~/apache-jmeter-5.1.1/lib/ext/jmeter-plugins-manager-1.3.jar
+1. (Load Test Machine) Pull Github file command: 
+    cd ~
+    git clone https://github.com/praparn/jmeter-workshop-062019.git
 
 2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
     vncserver -kill :1
@@ -21,22 +22,37 @@ Part 2: Build Image of Docker for JMeter
 
 2. (Load Test Machine) Check image by command: docker image ls
 
-3. (Load Test Machine) Create docker network and export volume for share testplan by command:
+3. (Load Test Machine) Create docker network and access to share testplan path by command:
     docker network create --driver bridge \
     --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
 
-    export=jmeter-path=~/jmeter-workshop-062019/jmeter
+    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter
 
 
-4. (Load Test Machine) Run 3 jmeter server for generate load by command:
-    docker run -dit \
-	--net jmeternet --ip 192.168.100.10 \
-	-v "${volume_path}":${jmeter_path} \
-	--rm \
-	jmeter \
-	-n -s \
+4. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
+    echo "JMeter Server Node1"
+    docker run -dit --net jmeternet --ip 192.168.100.10 --mount type=bind,source=$(jmeter-path),target=/mnt/jmeter \
+	--rm jmeter -n -s \
 	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
-	-j ${jmeter_path}/server/slave_${timestamp}_${IP_ADD:9:3}.log 
+	-j $(jmeter_path)/server/slave_$(date +%Y%m%d_%H%M%S)_192.168.100.10.log 
+
+    echo "JMeter Server Node2"
+    docker run -dit --net jmeternet --ip 192.168.100.11 --mount type=bind,source=$(jmeter-path),target=/mnt/jmeter \
+	--rm jmeter -n -s \
+	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
+	-j $(jmeter_path)/server/slave_$(date +%Y%m%d_%H%M%S)_192.168.100.11.log 
+
+    echo "JMeter Server Node3"
+    docker run -dit --net jmeternet --ip 192.168.100.12 --mount type=bind,source=$(jmeter-path),target=/mnt/jmeter \
+	--rm jmeter -n -s \
+	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
+	-j $(jmeter_path)/server/slave_$(date +%Y%m%d_%H%M%S)_192.168.100.12.log 
+
+    echo "JMeter Client"
+    docker run -dit --net jmeternet --ip 192.168.100.20 --mount type=bind,source=$(jmeter-path),target=/mnt/jmeter \
+	--rm jmeter -n -s \
+	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
+	-j $(jmeter_path)/server/slave_$(date +%Y%m%d_%H%M%S)_192.168.100.12.log 
 
 5. (Load Test Machine) Open "FirstPage.jmx" and add some listener we will find new pluging there
     "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second"
