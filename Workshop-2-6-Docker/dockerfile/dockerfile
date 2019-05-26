@@ -22,13 +22,13 @@ RUN    apk update \
 	&& update-ca-certificates \
             && apk add --update openjdk8-jre tzdata curl unzip bash \
             && cp /usr/share/zoneinfo/Europe/Rome /etc/localtime \
-            && echo "Europe/Rome" >  /etc/timezone \
+            && echo "Asia/Bangkok" >  /etc/timezone \
 	&& rm -rf /var/cache/apk/* \
 	&& mkdir -p /tmp/dependencies  \
 	&& curl -L --silent ${JMETER_DOWNLOAD_URL} >  /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz  \
 	&& mkdir -p /opt  \
 	&& tar -xzf /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz -C /opt  \
-	&& rm -rf /tmp/dependencies
+	&& rm -rf /tmp/dependencies && chmod 777 -R ${JMETER_HOME}
 
 # 6
 RUN curl -L --silent ${JMETER_PLUGINS_DOWNLOAD_URL}/jmeter-plugins-manager-1.3.jar -o ${JMETER_PLUGINS_FOLDER}/jmeter-plugins-manager-1.3.jar
@@ -45,6 +45,7 @@ COPY launch.sh /
 
 #9
 WORKDIR ${JMETER_HOME}
+
 
 #10
 ENTRYPOINT ["/launch.sh"]

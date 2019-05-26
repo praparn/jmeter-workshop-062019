@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Step 1: Define IP Address, Timestamp Volume of JMeter Server and JMeter Client"
 CLIENT_IP=192.168.100.20
-declare -a SERVER_IPS=("192.168.100.10" "192.168.100.11" "192.168.100.10")
+declare -a SERVER_IPS=("192.168.100.10" "192.168.100.11" "192.168.100.12")
 timestamp=$(date +%Y%m%d_%H%M%S)
 script_path=/home/ubuntu/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter
 result_path=/home/ubuntu/jmeter-workshop-062019/Workshop-2-6-Docker/result
