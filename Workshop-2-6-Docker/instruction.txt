@@ -3,6 +3,7 @@ Part 1: Pull Resource and Open JMeter TestPlan for Adjust Destination
 ============================================================================================
 1. (Load Test Machine) Pull Github file command: 
     cd ~
+    rm -rf ./jmeter-workshop-062019
     git clone https://github.com/praparn/jmeter-workshop-062019.git
 
 2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
@@ -36,12 +37,12 @@ Part 2: Build Image of Docker for JMeter
 3. (Load Test Machine) Create docker network and access to share testplan path by command:
     docker network create --driver bridge \
     --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
-
-    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter
+    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/
 
 
 4. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
-    By
+    chmod +x ./init.sh
+    ./init.sh
 
 5. (Load Test Machine) Open "FirstPage.jmx" and add some listener we will find new pluging there
     "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second"

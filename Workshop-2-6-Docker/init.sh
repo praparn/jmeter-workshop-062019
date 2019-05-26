@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "Step 1: Define IP Address, Timestamp Volume of JMeter Server and JMeter Client"
 CLIENT_IP=192.168.100.20
 declare -a SERVER_IPS=("192.168.100.10" "192.168.100.11" "192.168.100.10")
@@ -28,7 +28,7 @@ docker run --name $CLIENT_IP \
   --rm jmeter -n -X \
   -Jclient.rmi.localport=7000 \
   -R $(echo $(printf ",%s" "${SERVER_IPS[@]}") | cut -c 2-) \
-  -t ${jmeter_scriptpath}/<jmx_script> \
+  -t ${jmeter_scriptpath}/Advance_FirstPage.jmx \
   -l ${jmeter_resultpath}/client/result_${timestamp}.jtl \
   -j ${jmeter_resultpath}/client/jmeter_${timestamp}.log 
  
