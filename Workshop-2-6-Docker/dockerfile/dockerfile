@@ -42,9 +42,11 @@ ENV PATH $PATH:$JMETER_BIN
 
 # 8
 COPY launch.sh /
+RUN chmod +x ./launch.sh
 
 #9
 WORKDIR ${JMETER_HOME}
+COPY user.properties ${JMETER_BIN}
 
 
 #10

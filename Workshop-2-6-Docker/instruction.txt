@@ -3,7 +3,7 @@ Part 1: Pull Resource and Open JMeter TestPlan for Adjust Destination
 ============================================================================================
 1. (Load Test Machine) Pull Github file command: 
     cd ~
-    rm -rf ./jmeter-workshop-062019
+    sudo rm -rf ./jmeter-workshop-062019
     git clone https://github.com/praparn/jmeter-workshop-062019.git
 
 2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
@@ -25,6 +25,8 @@ Part 1: Pull Resource and Open JMeter TestPlan for Adjust Destination
 
 5. (Load Test Machine) Test run testplan in GUI mode for confirmation (30 seconds) and close testplan
 
+6. (Load Test Machine) Stop GUI Jmeter for prepare run on batch mode
+
 ============================================================================================
 Part 2: Build Image of Docker for JMeter
 ============================================================================================
@@ -44,10 +46,13 @@ Part 2: Build Image of Docker for JMeter
     chmod +x ./init.sh
     ./init.sh
 
-5. (Load Test Machine) Open "FirstPage.jmx" and add some listener we will find new pluging there
-    "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second"
+5. (Load Test Machine) Monitor process via HTOP/Top until finished:
+   
 
-6. (Load Test Machine) Start test performance by command:
+6. (Load Test Machine) Check result and Open JMEter on GUI again for review:
+    ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/server   ==> View Log of Each Server
+    ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/client   ==> View Log of Each Client
+
 
 ============================================================================================
 Part 3: Install plugin via command line

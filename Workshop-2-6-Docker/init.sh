@@ -13,10 +13,10 @@ for IPADDR in "${SERVER_IPS[@]}"
 do
 	docker run --name $IPADDR \
 	-dit --net jmeternet --ip $IPADDR \
-    --mount type=bind,source=${result_path},target=${jmeter_resultpath} \
+  --mount type=bind,source=${result_path},target=${jmeter_resultpath} \
 	--rm jmeter -n -s \
-	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
-	-j ${jmeter_resultpath}/server/slave_${timestamp}_${IPADDR:9:3}.log 
+	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 -Jserver.rmi.ssl.disable=true \
+	-j ${jmeter_resultpath}/server/slave_${timestamp}_${IPADDR}.log 
 done
 
 echo "Step 3: Create JMeter client"
@@ -26,7 +26,7 @@ docker run --name $CLIENT_IP \
   --mount type=bind,source=${script_path},target=${jmeter_scriptpath} \
   -v "${volume_path}":${jmeter_path} \
   --rm jmeter -n -X \
-  -Jclient.rmi.localport=7000 \
+  -Jclient.rmi.localport=7000 -Jserver.rmi.ssl.disable=true \
   -R $(echo $(printf ",%s" "${SERVER_IPS[@]}") | cut -c 2-) \
   -t ${jmeter_scriptpath}/Advance_FirstPage.jmx \
   -l ${jmeter_resultpath}/client/result_${timestamp}.jtl \
