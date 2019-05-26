@@ -16,14 +16,27 @@ Part 1: Instll Plugin Manager / Open JMeter
 Part 2: Build Image of Docker for JMeter
 ============================================================================================
 1. (Load Test Machine) Build docker image for JMeter by command:
-    docker build -t jmeter ./Workshop-2-6-Docker
+    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/dockerfile
+    docker build -t jmeter ./
+
+2. (Load Test Machine) Check image by command: docker image ls
+
+3. (Load Test Machine) Create docker network and export volume for share testplan by command:
+    docker network create --driver bridge \
+    --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
+
+    export=jmeter-path=~/jmeter-workshop-062019/jmeter
 
 
-2. (Load Test Machine) Choose menu "Options" ==> "Plugins Manager"
-
-3. (Load Test Machine) Check existing plugin by tab "Installed Plugins"
-
-4. (Load Test Machine) Install avaliable plugins "3Basic Graphs","5 Additional Graphs"
+4. (Load Test Machine) Run 3 jmeter server for generate load by command:
+    docker run -dit \
+	--net jmeternet --ip 192.168.100.10 \
+	-v "${volume_path}":${jmeter_path} \
+	--rm \
+	jmeter \
+	-n -s \
+	-Jclient.rmi.localport=7000 -Jserver.rmi.localport=60000 \
+	-j ${jmeter_path}/server/slave_${timestamp}_${IP_ADD:9:3}.log 
 
 5. (Load Test Machine) Open "FirstPage.jmx" and add some listener we will find new pluging there
     "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second"
