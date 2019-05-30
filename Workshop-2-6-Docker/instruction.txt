@@ -39,149 +39,17 @@ Part 2: Build Image of Docker for JMeter
 3. (Load Test Machine) Create docker network and access to share testplan path by command:
     docker network create --driver bridge \
     --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
-    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/
-
 
 4. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
+    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/
     chmod +x ./init.sh
     ./init.sh
 
 5. (Load Test Machine) Monitor process via HTOP/Top until finished:
    
-
-6. (Load Test Machine) Check result and Open JMEter on GUI again for review:
+6. (Load Test Machine) Check result:
     ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/server   ==> View Log of Each Server
     ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/client   ==> View Log of Each Client
 
-
-============================================================================================
-Part 3: Install plugin via command line
-============================================================================================
-1. Install uzip and Download plugin and unzip Example (Custom Thread Groups)
-    curl https://jmeter-plugins.org/files/packages/jpgc-casutg-2.8.zip > ~/jpgc-casutg-2.8.zip
-    sudo apt-get install -y unzip
-    unzip jpgc-casutg-2.8.zip -d jpgc-casutg-2.8
-    cp ~/jpgc-casutg-2.8/lib/ext/jmeter-plugins-casutg-2.8.jar ~/apache-jmeter-5.1.1/lib/ext/
-
-2. Open JMeter and Add Thread Group "jp@gc - Ultimate Thread Group
-   sed -i -e 's/"${HEAP:="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m"}"/"${HEAP:="-Xms2g -Xmx2g -XX:MaxMetaspaceSize=512m"}"/g' /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
-   /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
-
-============================================================================================
-Step 3: Start Performance Test Scenario 1 (First Page View)
-============================================================================================
-1. (Local machine): Open url for cAdvisor in browser: http://<Public IP of WebServer Docker>:8080
-    1.1 Duplicate tab for monitor: Container: mean
-    1.2 Duplicate tab for monitor: Container: mongodb
-
-2. (Load Test Machine) Open Test File name: FirstPage.jmx
-
-3. (Load Test Machine) Configure private ip address of WebServer Docker on menu below:
-    3.1 Select Test Plan(First Page View) ==> "User Defined Variables" and Change value on "BASE_URL_1" to <Private IP of WebServer Docker>
-    3.2 Select Test Plan(First Page View) ==> "Thread Group (First Page View)" and Change Value:
-        3.2.1 Nuber of Threads (users): 200
-        3.2.2 Ramp-Up Period (in seconds): 120
-        3.2.3 Loop Count: [] Forever
-
-4. (Load Test Machine) Clear existing data by menu (Run ==> Clear All)
-
-5. (Load Test Machine) Start load test by menu (Run ==> Start) with 5 min duration and Check result
-
-6. (Load Test Machine) Stop load test by menu (Run ==> Shutdown)
-
-7. (Load Test Machine) Check result from all listerner
-
-
-============================================================================================
-Step 4: Start Performance Test Scenario 2 (SignUp View)
-============================================================================================
-1. (Local machine): Open url for cAdvisor in browser: http://<Public IP of WebServer Docker>:8080
-    1.1 Duplicate tab for monitor: Container: mean
-    1.2 Duplicate tab for monitor: Container: mongodb
-
-2. (Local machine) Open url for MongoExpress in browser: http://<Public IP of WebServer Docker>:8081
-
-3. (Load Test Machine) Open Test File name: Signup.jmx
-
-4. (Load Test Machine) Configure private ip address of WebServer Docker on menu below:
-    4.1 Select Test Plan(SignUp) ==> "User Defined Variables" and Change value on "BASE_URL_1" to <Private IP of WebServer Docker>
-    4.2 Select Test Plan(SignUp) ==> "Thread Group (SignUp)" and Change Value:
-        4.2.1 Nuber of Threads (users): 200
-        4.2.2 Ramp-Up Period (in seconds): 120
-        4.2.3 Loop Count: [] Forever
-
-5. (Load Test Machine) Clear existing data by menu (Run ==> Clear All)
-
-6. (Load Test Machine) Start load test by menu (Run ==> Start) wait until all data was insert complete (20,000 records) ~ 10 - 15 min
-
-7. (Load Test Machine) Check result from all listerner, MongoExpress
-
-*Remark: In case we need re-load test this scenario. Please kindly clear data from table user,session first
-
-
-============================================================================================
-Step 5: Start Performance Test Scenario 3 (Logon/Chat)
-============================================================================================
-1. (Local machine): Open url for cAdvisor in browser: http://<Public IP of WebServer Docker>:8080
-    1.1 Duplicate tab for monitor: Container: mean
-    1.2 Duplicate tab for monitor: Container: mongodb
-
-2. (Local machine) Open url for MongoExpress in browser: http://<Public IP of WebServer Docker>:8081
-
-3. (Load Test Machine) Open Test File name: Login.jmx
-
-4. (Load Test Machine) Configure private ip address of WebServer Docker on menu below:
-    4.1 Select Test Plan(Login) ==> "User Defined Variables" and Change value on "BASE_URL_1" to <Private IP of WebServer Docker>
-    4.2 Select Test Plan(Login) ==> "Thread Group (Login)" and Change Value:
-        4.2.1 Nuber of Threads (users): 200
-        4.2.2 Ramp-Up Period (in seconds): 120
-        4.2.3 Loop Count: [] Forever
-
-5. (Load Test Machine) Clear existing data by menu (Run ==> Clear All)
-
-6. (Load Test Machine) Start load test by menu (Run ==> Start) wait about 5 min before shutdown
-
-7. (Load Test Machine) Stop load test by menu (Run ==> Shutdown)
-
-8. (Load Test Machine) Check result from all listerner
-
-*Remark: In case we need re-load test this scenario. Please kindly clear data from table session first
-
-
-============================================================================================
-Step 6: Start Performance Test Scenario 4 (JDBC on MongoDB)
-============================================================================================
-1. (Load Test Machine): Install Jmeter Plugin Manager and Update library "MongoDB Java Driver" to jmeter by command:
-    cd ~
-    wget wget https://jmeter-plugins.org/get/
-    mv index.html ./apache-jmeter-5.0/lib/ext/jmeter-plugins-manager-1.3.jar
-    rm ./apache-jmeter-5.0/lib/mongo-java-driver-2.11.3.jar 
-    curl https://repo1.maven.org/content/repositories/releases/org/mongodb/mongo-java-driver/3.0.0/mongo-java-driver-3.0.0.jar > ./apache-jmeter-5.0/lib/ext/mongodb-driver-driver-3.10.0.jar
-    *Restart Jmeter again for support new jar file and check JMeter Pluging Manager
-
-2. (Local machine) Open url for MongoExpress in browser: http://<Public IP of WebServer Docker>:8081
-
-3. (Load Test Machine) Open Test File name: MongoDB.jmx
-
-4. (Load Test Machine) Configure private ip address of WebServer Docker on menu below:
-    4.1 Select Test Plan(Login) ==> "User Defined Variables" and Change Value:
-        4.1.1 BASE_URL_1: <Private IP of WebServer Docker>
-        4.1.2 mongoHost:  <Private IP of WebServer Docker>
-        4.1.3 databaseName: mean-dev
-        4.1.4 collectionName: users
-        4.1.5 mongoPort: 27017
-
-    4.2 Select Test Plan(Login) ==> "Thread Group (Login)" and Change Value:
-        4.2.1 Nuber of Threads (users): 200
-        4.2.2 Ramp-Up Period (in seconds): 120
-        4.2.3 Loop Count: [] Forever
-
-5. (Load Test Machine) Clear existing data by menu (Run ==> Clear All)
-
-6. (Load Test Machine) Start load test by menu (Run ==> Start) wait about 5 min before shutdown 
-
-7. (Load Test Machine) Stop load test by menu (Run ==> Shutdown)
-
-8. (Load Test Machine) Check result from all listerner
-
-*Remark: In case we need re-load test this scenario. Please kindly clear data from table session first
+7. (Load Test Machine) Open JMeter for Check Listener Result:
+    /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
