@@ -8,8 +8,7 @@ Lab Description
 ============================================================================================
 Machine name		            			        Roles:						IP Address: (Private)		IP Address: (Public)       SSH
 Training_NodeJS_Scaling_StudentGX_1    	     Load Test Machine			X.X.X.X 					   X.X.X.X     		          ssh -i "XXXX.pem" ubuntu@X.X.X.X
-Training_NodeJS_Scaling_StudentGX_2            MEAN.JS                  X.X.X.X 				      X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X
-Training_NodeJS_Scaling_StudentGX_3       	  Magento                  X.X.X.X 					   X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X         
+Training_NodeJS_Scaling_StudentGX_2            Application Machine      X.X.X.X 				      X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X        
 ============================================================================================
 
 ============================================================================================

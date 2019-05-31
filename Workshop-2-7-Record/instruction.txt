@@ -1,14 +1,9 @@
 ============================================================================================
-Part 1: Pull Resource and Open JMeter TestPlan for Adjust Destination
+Part 1: Open new test plan on GUI and record test
 ============================================================================================
-1. (Load Test Machine) Pull Github file command: 
-    cd ~
-    sudo rm -rf ./jmeter-workshop-062019
-    git clone https://github.com/praparn/jmeter-workshop-062019.git
+1. (Load Test Machine) Open GUI and new test plan: 
 
-2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
-    vncserver -kill :1
-    vncserver -geometry 1600x900 :1
+2. (Load Test Machine) Open Menu/Template/Recording
 
 3. (Load Test Machine) Open Jmeter GUI (If disapper. Please run
    sed -i -e 's/"${HEAP:="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m"}"/"${HEAP:="-Xms2g -Xmx2g -XX:MaxMetaspaceSize=512m"}"/g' /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
