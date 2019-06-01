@@ -72,10 +72,10 @@ MEAN.JS version: 0.6.0
 	--name=cadvisor \
 	labdocker/cadvisor:latest
 
-8. (Application Machine) Check meanjs, open cadvisor and mongoexpress by webbrowser:
-    Open url: http://<public ip of MEAN.JS>:3000        ==> for MEAN Application
-    Open url: http://<public ip of MEAN.JS>:8080   ==> for cAdvisor
-    Open url: http://<public ip of MEAN.JS>:8081   ==> for Mongo-express
+8. (Load Test Machine) Check meanjs, open cadvisor and mongoexpress by webbrowser:
+    Open url: http://<private ip of MEAN.JS>:3000        ==> for MEAN Application
+    Open url: http://<private ip of MEAN.JS>:8080   ==> for cAdvisor
+    Open url: http://<private ip of MEAN.JS>:8081   ==> for Mongo-express
     
 *Remark:
     Case Roll Back:
@@ -106,7 +106,7 @@ Step 2: Setup Magento (Application Machine)
     -e MAGENTO_DATABASE_USER=magento \
     -e MAGENTO_DATABASE_PASSWORD=magento \
     -e MAGENTO_DATABASE_NAME=magento \
-    -e MAGENTO_HOST="<Public IP>" --link mariadb:bitnami_magento bitnami/magento:latest   
+    -e MAGENTO_HOST="<Private IP>" --link mariadb:bitnami_magento bitnami/magento:latest   
 
     *Remark:
     DB Name: magento
@@ -142,15 +142,15 @@ magento INFO
 nami    INFO  magento successfully initialized
     ****************************************************************************************
 
-8. (Application Machine) Open phpmyadmin and get username/password of Magento:
-    Open url: http://<public ip of Magento>:9081   ==> for phpmyadmin   (username:root, password: P@ssw0rd)
+8. (Load Test Machine) Open phpmyadmin and get username/password of Magento:
+    Open url: http://<private ip of Magento>:9081   ==> for phpmyadmin   (username:root, password: P@ssw0rd)
 
-9. (Application Machine) Open Navicat for initial configuration:
-    Open url: http://<public ip of Magento>:9082   ==> for navicat
+9. (Load Test Machine) Open Navicat for initial configuration:
+    Open url: http://<private ip of Magento>:9082   ==> for navicat
 
-8. (Application Machine) Open url for website
-    Open url: http://<public ip of Magento>       ==> for Magento Application
-    Open url: http://<public ip of Magento>/admin  ==> for Magento Application (Admin Page) (User: user, Password: bitnami1)
+8. (Load Test Machine) Open url for website
+    Open url: http://<private ip of Magento>       ==> for Magento Application
+    Open url: http://<private ip of Magento>/admin  ==> for Magento Application (Admin Page) (User: user, Password: bitnami1)
     
 *Remark:
     Case Roll Back:
