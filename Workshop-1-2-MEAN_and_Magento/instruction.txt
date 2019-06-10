@@ -102,7 +102,7 @@ Step 2: Setup Magento (Application Machine)
      bitnami/mariadb:latest
 
 3. (Application Machine) Run docker container magento by command:
-    docker run -dt --name magento -p 80:80 \
+    docker run -dt --name magento -p 80:80 -p 443:443\
     -e MAGENTO_DATABASE_USER=magento \
     -e MAGENTO_DATABASE_PASSWORD=magento \
     -e MAGENTO_DATABASE_NAME=magento \
