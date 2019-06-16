@@ -3,8 +3,8 @@ echo "Step 1: Define IP Address, Timestamp Volume of JMeter Server and JMeter Cl
 CLIENT_IP=192.168.100.20
 declare -a SERVER_IPS=("192.168.100.10" "192.168.100.11" "192.168.100.12")
 timestamp=$(date +%Y%m%d_%H%M%S)
-script_path=~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter
-result_path=~/jmeter-workshop-062019/Workshop-2-6-Docker/result
+script_path=~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter
+result_path=~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/result
 jmeter_scriptpath=/mnt/jmeter
 jmeter_resultpath=/mnt/result
 

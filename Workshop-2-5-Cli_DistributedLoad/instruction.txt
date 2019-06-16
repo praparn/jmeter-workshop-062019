@@ -25,20 +25,20 @@ Part 1: Open and Configure Test Plan
         Loop Count: 30
 4. (Load Test Machine) Disable all listener and close JMeter
 
-5. (Load Test Machine) Run load test in command line mode by command
+5. (Load Test Machine) Run load test in command line mode by command (Record total sample and Time to run)
     cd ~
     ./apache-jmeter-5.1.1/bin/jmeter -n -t ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/Template_Workshop_2_5_FirstPage.jmx -l ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/result_2_5.jtl
 
 
-5. (Load Test Machine) Test run testplan in GUI mode for confirmation (30 seconds) and close testplan
+6. (Load Test Machine) Open JMEter GUI/"~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/Template_Workshop_2_5_FirstPage.jmx" and enable all listerer
 
-6. (Load Test Machine) Stop GUI Jmeter for prepare run on batch mode
+7. (Load Test Machine) Check Listener result by file ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/result_2_5.jt
 
 ============================================================================================
 Part 2: Build Image of Docker for JMeter
 ============================================================================================
 1. (Load Test Machine) Build docker image for JMeter by command:
-    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/dockerfile
+    cd ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/dockerfile
     docker build -t jmeter ./
 
 2. (Load Test Machine) Check image by command: docker image ls
@@ -48,7 +48,7 @@ Part 2: Build Image of Docker for JMeter
     --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
 
 4. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
-    cd ~/jmeter-workshop-062019/Workshop-2-6-Docker/
+    cd ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/
     chmod +x ./init.sh
     ./init.sh
 
