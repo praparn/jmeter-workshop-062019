@@ -28,7 +28,7 @@ docker run --name $CLIENT_IP \
   --rm jmeter -n -X \
   -Jclient.rmi.localport=7000 -Jserver.rmi.ssl.disable=true \
   -R $(echo $(printf ",%s" "${SERVER_IPS[@]}") | cut -c 2-) \
-  -t ${jmeter_scriptpath}/Advance_FirstPage.jmx \
+  -t ${jmeter_scriptpath}/Template_Workshop_2_5_FirstPage.jmx \
   -l ${jmeter_resultpath}/client/result_${timestamp}.jtl \
   -j ${jmeter_resultpath}/client/jmeter_${timestamp}.log 
  
