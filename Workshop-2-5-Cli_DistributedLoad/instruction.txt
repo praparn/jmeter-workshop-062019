@@ -37,17 +37,23 @@ Part 1: Open and Configure Test Plan
 ============================================================================================
 Part 2: Build Image of Docker for JMeter
 ============================================================================================
-1. (Load Test Machine) Build docker image for JMeter by command:
+1. (Load Test Machine) Open JMEter GUI/"~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/Template_Workshop_2_5_FirstPage.jmx" and Check Thread Group's Configuration like below (800 / 3)
+    Thread Group:
+        Number of Threads (users): 267
+        Ramp-Up Periods (in seconds): 10
+        Loop Count: 30
+
+2. (Load Test Machine) Build docker image for JMeter by command:
     cd ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/dockerfile
     docker build -t jmeter ./
 
-2. (Load Test Machine) Check image by command: docker image ls
+3. (Load Test Machine) Check image by command: docker image ls
 
-3. (Load Test Machine) Create docker network and access to share testplan path by command:
+4. (Load Test Machine) Create docker network and access to share testplan path by command:
     docker network create --driver bridge \
     --subnet=192.168.100.0/24 --gateway=192.168.100.5 --opt="com.docker.network.mtu"="1500" jmeternet
 
-4. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
+5. (Load Test Machine) Run 3 jmeter server and 1 jmeter client for generate load by command:
     cd ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/
     chmod +x ./init.sh
     ./init.sh
@@ -62,3 +68,9 @@ Part 2: Build Image of Docker for JMeter
     ~/apache-jmeter-5.1.1/bin/jmeter
 
 8. (Load Test Machine) Clear up network by command: docker network rm jmeternet
+
+*Remark: If you have a lot of free time. Please try Part 2 again with Thread Grouop below (1200 Users)
+    Thread Group:
+        Number of Threads (users): 400
+        Ramp-Up Periods (in seconds): 10
+        Loop Count: 30
