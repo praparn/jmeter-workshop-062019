@@ -22,12 +22,12 @@ Part 1: Open and Configure Test Plan
     Thread Group:
         Number of Threads (users): 800
         Ramp-Up Periods (in seconds): 10
-        Loop Count: 100
+        Loop Count: 30
 4. (Load Test Machine) Disable all listener and close JMeter
 
 5. (Load Test Machine) Run load test in command line mode by command
     cd ~
-    ./apache-jmeter-5.1.1/bin/jmeter -n -t ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Template_Workshop_2_5_FirstPage.jmx -l ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/result_2_5.jtl
+    ./apache-jmeter-5.1.1/bin/jmeter -n -t ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/Template_Workshop_2_5_FirstPage.jmx -l ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/jmeter/result_2_5.jtl
 
 
 5. (Load Test Machine) Test run testplan in GUI mode for confirmation (30 seconds) and close testplan
@@ -55,10 +55,10 @@ Part 2: Build Image of Docker for JMeter
 5. (Load Test Machine) Monitor process via HTOP/Top until finished:
    
 6. (Load Test Machine) Check result:
-    ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/server   ==> View Log of Each Server
-    ls ~/jmeter-workshop-062019/Workshop-2-6-Docker/result/client   ==> View Log of Each Client
+    ls ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/result/server   ==> View Log of Each Server
+    ls ~/jmeter-workshop-062019/Workshop-2-5-Cli_DistributedLoad/result/client   ==> View Log of Each Client
 
 7. (Load Test Machine) Open JMeter for Check Listener Result:
-    /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
+    ~/apache-jmeter-5.1.1/bin/jmeter
 
 8. (Load Test Machine) Clear up network by command: docker network rm jmeternet
