@@ -40,12 +40,16 @@ Step 1: Install require component for remote (Load Test Machine)
    curl https://www-us.apache.org/dist//jmeter/binaries/apache-jmeter-5.1.1.tgz > /home/ubuntu/apache-jmeter-5.1.1.tgz
    tar -zxvf /home/ubuntu/apache-jmeter-5.1.1.tgz && cd apache-jmeter-5.1.1/bin/
 
-7. (Client) Test open ultravnc client to connect 
+7. (Load Test Machine) Git clone all source code by command:
+   cd ~
+   git clone https://github.com/praparn/jmeter-workshop-062019.git
+
+8. (Client) Test open ultravnc client to connect 
    <public ip address>:1
    *Remark: accept unencrypted connection and input password to "P@ssw0rd"
 
-8. (Client) Open terminal by menu: Application ==> System Tools ==> Xterm
+9. (Client) Open terminal by menu: Application ==> System Tools ==> Xterm
 
-9. (Client) Run jmeter by command:
+10. (Client) Run jmeter by command:
    sed -i -e 's/"${HEAP:="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m"}"/"${HEAP:="-Xms2g -Xmx2g -XX:MaxMetaspaceSize=512m"}"/g' /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
    /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter

@@ -5,16 +5,31 @@ Part 1: Open and Configure Test Plan
     vncserver -kill :1
     vncserver -geometry 1600x900 :1
 
-2. (Load Test Machine) Open Jmeter GUI (If disapper. Please run
+2. (Load Test Machine) Open Jmeter GUI (If disapper. Please run)
     cd ~
-    ./apacher-jemeter-5.1.1/bin/jmeter
+    ./apache-jmeter-5.1.1/bin/jmeter
 
-3. (Load Test Machine) Open test plan on path: ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Template_Workshop_2_5_FirstPage.jmx and Check Variable
+3. (Local machine): Open "~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Template_Workshop_2_5_FirstPage.jmx" and Verify and Config "User Defined Variables" from Test Plan
+    BaseIP: <Add private ip of application machine>
+    MariaUserName:  <Verify>
+    MariaPassWord:  <Verify>
+    MariaPort:      <Verify>
+    MongoDBPort:    <Verify>
+    MeanPort:       <Verify>
+    MegentoPort:    <Verify>
+
+4. (Load Test Machine) Check Thread Group's Configuration like below
     Thread Group:
         Number of Threads (users): 800
         Ramp-Up Periods (in seconds): 10
         Loop Count: 100
-4. 
+4. (Load Test Machine) Disable all listener and close JMeter
+
+5. (Load Test Machine) Run load test in command line mode by command
+    cd ~
+    ./apache-jmeter-5.1.1/bin/jmeter -n -t ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Template_Workshop_2_5_FirstPage.jmx -l ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/result_2_5.jtl
+
+
 5. (Load Test Machine) Test run testplan in GUI mode for confirmation (30 seconds) and close testplan
 
 6. (Load Test Machine) Stop GUI Jmeter for prepare run on batch mode
