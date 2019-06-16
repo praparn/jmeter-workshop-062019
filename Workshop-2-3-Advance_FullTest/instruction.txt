@@ -5,11 +5,11 @@ Part 1 : Start Performance Test (Load Test Machine)
     vncserver -geometry 1600x900 :1
 
 ============================================================================================
-Part 2: CSV for MEAN.JS
+Part 2: FULL LoadTest for MEAN.JS
 ============================================================================================
-0. (Load Test Machine): Open testplan for kickstart on: "KickStart_MEANJS_WorkShop_2_2.jmx"
+0. (Load Test Machine): Open testplan for kickstart on: "KickStart_MEANJS_WorkShop_2_3.jmx"
 
-1. (Load Test machine): Verify and Config "User Defined Variables" from Test Plan: "KickStart_MEANJS_WorkShop"
+1. (Local machine): Verify and Config "User Defined Variables" from Test Plan: "KickStart_MEANJS_WorkShop"
     BaseIP: <Add private ip of application machine>
     MariaUserName:  <Verify>
     MariaPassWord:  <Verify>
@@ -18,41 +18,43 @@ Part 2: CSV for MEAN.JS
     MeanPort:       <Verify>
     MegentoPort:    <Verify>
 
-2. (Load Test machine): Open LogViewer by Click Menu ==> Options ==> Log LogViewer
+2. (Load Test Machine) Verify Config Element on Test Plan
+    2.1 HTTP Header for Android:
+    2.2 HTTP Cookie Manager:
+    2.3 HTTP Cache Manager:
 
-3. (Load Test machine): Start performance test (Round1) and check log on "View Results in Table","Log Viewer"
+3. (Load Test Machine) Verify "SignUp Thread Group" with following variable
+    3.1 Number of Threads (usrs): 200
+    3.2 Ramp-Up Period (in seconds): 120
 
-4. (Load Test machine): Insert Groovy Script on "Debug JSR223 PostProcessor" (TestPlan ==> Create Account Thread Group ==> Simple Controller ==> Debug Sampler)
-----------------------------------------------------------------------------------------------
+4. (Load Test Machine) Verify and Config "CSV Data Set 1 Config" (KickStart_MEANJS_Workshop_2_3 ==> SignUp Thread Group ==> CSV Data Set1 Config)
+    4.1 Filename: <Browser Filename: MEANJSData.csv within Folder workshop>
+    4.2 File encoding: <Verify>
+    4.3 Variable Names (comma-delimited): <Verify>
 
-int count = Integer.parseInt(vars.get("FBField_matchNr"));
-log.info("<=========================Regular Express Extractor:Total Vault Iteration "+count+"<=========================>");
-String g1="";
-String g2="";
-for(int i=1;i<=count;i++)
-{
-	g1=vars.get("FBField_"+i+"_g1");
-	g2=vars.get("FBField_"+i+"_g2");
-	log.info("FBField Iteration:"+i+"  Group 1:"+g1);
-	log.info("FBField Iteration:"+i+"  Group 2:"+g2);
-}
-log.info("<=========================Regular Express Extractor:END Record<=========================>");
-count = Integer.parseInt(vars.get("XPath_matchNr"));
-log.info("<=========================Regular XPath:Total Vault Iteration "+count+"<=========================>");
-String g3="";
-for(int i=1;i<=count;i++)
-{
-	g3=vars.get("XPath_"+i);
-	log.info("XPath No:"+i+" Value:"+g3);
-}
-log.info("<=========================Regular XPath:END Record<=========================>");
+5. (Load Test Machine) Verify "Login Thread Group" with following variable
+    3.1 Number of Threads (usrs): 300
+    3.2 Ramp-Up Period (in seconds): 120
 
-----------------------------------------------------------------------------------------------
+6. (Load Test Machine) Verify and Config "CSV Data Set 2 Config" (KickStart_MEANJS_Workshop_2_3 ==> SignUp Thread Group ==> CSV Data Set1 Config)
+    4.1 Filename: <Browser Filename: MEANJSData_Modified.csv within Folder workshop>
+    4.2 File encoding: <Verify>
+    4.3 Variable Names (comma-delimited): <Verify>
 
-5. (Load Test Machine) Enable Debug Sampler and Start performance test (Round 2) and check log on "View Results in Table","Log Viewer"
+7. (Load Test Machine) Start Load Test Process (Estimate 10 min or more for finished) within 3 Phase
+    Phase 0: WarmUp (First Page View)
+    Phase 1: SignUp (Insert 5000 Users)
+    Phase 2: Login (Login / Update / View Page)
+    Phase 3: SignOut
 
-6. (Load Test Machine) Enable Sampler "Second HTTP Request with RegEx"
+8. (Application Machine) During load test was run. Check resource consume via cAdvisor, command listening   
+    8.1 Open url: http://<private/public ip>: 8080 and Monitor
+    8.2 Run command below for check result:
+        4.2.1 docker stats
+        4.2.2 top
+        4.2.3 vmstat 2
+        4.2.4 iostat -xtc 2
+        4.2.5 sar -n DEV 2
 
-7. (Load Test Machine) Check JSR223 PreProcess and User Defined Vaeriables
-
-8. (Load Test Machine) Start performance test (Round 3) and check log on "View Results in Table","Log Viewer"
+*Remark:
+    If you have time slot more. Let's try to configure No.5 for 400, 500, 600 concurrent user

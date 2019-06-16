@@ -86,3 +86,7 @@ Part 3: Basic LoadTest for MAGENTO
 
 *Remark:
     If you have time slot more. Let's try to enable other thread group for test (Enable one-by-one)
+
+6. (Load Test Machine) Remove container of magento for reserve resource
+    docker stop magento phpmyadmin navicat mariadb
+    docker rm magento phpmyadmin navicat mariadb
