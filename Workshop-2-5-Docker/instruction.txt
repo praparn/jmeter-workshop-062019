@@ -1,28 +1,20 @@
 ============================================================================================
-Part 1: Pull Resource and Open JMeter TestPlan for Adjust Destination
+Part 1: Open and Configure Test Plan
 ============================================================================================
-1. (Load Test Machine) Pull Github file command: 
-    cd ~
-    sudo rm -rf ./jmeter-workshop-062019
-    git clone https://github.com/praparn/jmeter-workshop-062019.git
-
-2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
+1. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
     vncserver -kill :1
     vncserver -geometry 1600x900 :1
 
-3. (Load Test Machine) Open Jmeter GUI (If disapper. Please run
-   sed -i -e 's/"${HEAP:="-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m"}"/"${HEAP:="-Xms2g -Xmx2g -XX:MaxMetaspaceSize=512m"}"/g' /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
-   /home/ubuntu/apache-jmeter-5.1.1/bin/jmeter
+2. (Load Test Machine) Open Jmeter GUI (If disapper. Please run
+    cd ~
+    ./apacher-jemeter-5.1.1/bin/jmeter
 
-4. (Load Test Machine) Open test plan on path: /home/ubuntu/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Advance_FirstPage.jmx
+3. (Load Test Machine) Open test plan on path: ~/jmeter-workshop-062019/Workshop-2-6-Docker/jmeter/Template_Workshop_2_5_FirstPage.jmx and Check Variable
     Thread Group:
-        Number of Threads (users): 200
+        Number of Threads (users): 800
         Ramp-Up Periods (in seconds): 10
-        Loop Count: 10
-
-    User Defined Variable:
-        BASE_URL_1: <IP of Server Machine>
-
+        Loop Count: 100
+4. 
 5. (Load Test Machine) Test run testplan in GUI mode for confirmation (30 seconds) and close testplan
 
 6. (Load Test Machine) Stop GUI Jmeter for prepare run on batch mode

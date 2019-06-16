@@ -2,7 +2,7 @@
 Part 1: Instll Plugin Manager / Open JMeter 
 ============================================================================================
 1. (Load Test Machine) Download JAR file command: 
-    curl https://raw.githubusercontent.com/praparn/jmeter-workshop-062019/master/Workshop-2-5-Plugin/jmeter-plugins-manager-1.3.jar > ~/apache-jmeter-5.1.1/lib/ext/jmeter-plugins-manager-1.3.jar
+    curl http://search.maven.org/remotecontent?filepath=kg/apc/jmeter-plugins-manager/1.3/jmeter-plugins-manager-1.3.jar > ~/apache-jmeter-5.1.1/lib/ext/jmeter-plugins-manager-1.3.jar
 
 2. (Load Test Machine) In case UltraVNC is cannot connect. Kill and recreate vnc session by command:
     vncserver -kill :1
@@ -23,10 +23,19 @@ Part 2: Check and Install Plugin via Plugin Manager
 
 4. (Load Test Machine) Install avaliable plugins "3Basic Graphs","5 Additional Graphs"
 
-5. (Load Test Machine) Open "KickStart_WorkShop_2_4_FirstPage.jmx" and add some listener we will find new pluging there
+5. (Local machine): Open "KickStart_WorkShop_2_4_FirstPage.jmx" and Verify and Config "User Defined Variables" from Test Plan
+    BaseIP: <Add private ip of application machine>
+    MariaUserName:  <Verify>
+    MariaPassWord:  <Verify>
+    MariaPort:      <Verify>
+    MongoDBPort:    <Verify>
+    MeanPort:       <Verify>
+    MegentoPort:    <Verify>
+
+6. (Load Test Machine) Add some listener under thread group. We will find new pluging there
     "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second", "jp@gc - Active Threads Over Time"
 
-6. (Load Test Machine) Start test performance by command:
+7. (Load Test Machine) Start test performance by command:
 
 ============================================================================================
 Part 3: Install plugin via command line
