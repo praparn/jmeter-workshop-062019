@@ -33,7 +33,7 @@ Part 2: Check and Install Plugin via Plugin Manager
     MegentoPort:    <Verify>
 
 6. (Load Test Machine) Add some listener under thread group. We will find new pluging there
-    "jp@gc - Hits per Second" ,"jp@gc - Resposne Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second", "jp@gc - Active Threads Over Time"
+    "jp@gc - Hits per Second" ,"jp@gc - Response Latencies Over Time", "jp@gc - Response Times Over Time", "jp@gc - Response Codes per Second", "jp@gc - Active Threads Over Time"
 
 7. (Load Test Machine) Save TestPlan and Start test performance by command:
 
@@ -66,4 +66,4 @@ Part 3: Install plugin via command line
    
 4. Copy all element under original thread Group to new thread Group and disable original thread group
 
-5.  Start test performance by command:
+5.  Start test performance
