@@ -1,9 +1,9 @@
 ============================================================================================
 Lab Description
 ============================================================================================
-Machine name		            	Roles:						IP Address: (Private)		IP Address: (Public)       SSH
-Training_Performance_Teacher1    	Load Test Machine			X.X.X.X 					X.X.X.X     		        ssh -i "XXXX.pem" ubuntu@X.X.X.X
-Training_Performance_Teacher2       Application Machine         X.X.X.X 				    X.X.X.X                     ssh -i "XXXX.pem" ubuntu@X.X.X.X
+Machine name		                Roles:				    IP Address: (Private)		IP Address: (Public)       SSH
+Training_JMeter_StudentGX_1    	    Load Test Machine	    X.X.X.X 					X.X.X.X     		       ssh -i "XXXX.pem" ubuntu@X.X.X.X
+Training_JMeter_StudentGX_1         Application Machine     X.X.X.X 				    X.X.X.X                    ssh -i "XXXX.pem" ubuntu@X.X.X.X        
 ============================================================================================
 
 Part0 : Start Performance Test (Load Test Machine)
@@ -15,12 +15,14 @@ Part0 : Start Performance Test (Load Test Machine)
 ============================================================================================
 Step 1: Setup MEAN.JS (Application Machine)
 ============================================================================================
-0. (MEAN.JS) Install performance monitor tools
-sudo apt-get update && sudo apt-get install iptraf blktrace nicstat linux-tools-common linux-tools-generic systemtap trace-cmd tiptop msr-tools smartmontools sysstat -y && apt install perf-tools-unstable
-sudo curl https://s3.amazonaws.com/download.draios.com/stable/install-sysdig -o install-sysdig && cat ./install-sysdig | sudo bash
-sudo sed -i -e 's/false/true/g' /etc/default/sysstat
-sudo sed -i -e 's/5-55/*/g' /etc/cron.d/sysstat
-sudo sed -i -e 's/10/2/g' /etc/cron.d/sysstat
+0. (Application Machine) Install performance monitor tools
+sudo su -
+apt-get update && sudo apt-get install iptraf blktrace nicstat linux-tools-common linux-tools-generic systemtap trace-cmd tiptop msr-tools smartmontools sysstat -y && apt install perf-tools-unstable
+curl https://s3.amazonaws.com/download.draios.com/stable/install-sysdig -o install-sysdig && cat ./install-sysdig | sudo bash
+sed -i -e 's/false/true/g' /etc/default/sysstat
+sed -i -e 's/5-55/*/g' /etc/cron.d/sysstat
+sed -i -e 's/10/2/g' /etc/cron.d/sysstat
+exit
 
 1. (Application Machine) Clone meanstack by command: 
     cd ~/
@@ -28,8 +30,7 @@ sudo sed -i -e 's/10/2/g' /etc/cron.d/sysstat
     cd meanjs/
 
 2. (Application Machine) Edit dockerfile before operate by command:
-    sed -i -e 's/FROM ubuntu:latest/FROM ubuntu:16.04/g' Dockerfile-production
-    sed -i -e 's/FROM ubuntu:latest/FROM ubuntu:16.04/g' Dockerfile
+    sed -i -e 's/install -yq nodejs/install -yq nodejs npm/g' Dockerfile
 
 3. (Application Machine) Start create network and basic meanstack by command:
     docker image build -t mean .
@@ -53,7 +54,7 @@ App version:     0.6.0
 MEAN.JS version: 0.6.0
 ---------------------------------------------------------------------------------------------
 
-4. (Application Machine) Test access web from url: http://<public ip of WebServer Docker> and Signup with your account
+4. (Load Test Machine) Test access web from url: http://<private ip of Application Machine>:3000
 
 5. (Application Machine) Pull image need for monitor by command:
     docker image pull mongo-express:0.49
@@ -73,7 +74,7 @@ MEAN.JS version: 0.6.0
 	labdocker/cadvisor:latest
 
 8. (Load Test Machine) Check meanjs, open cadvisor and mongoexpress by webbrowser:
-    Open url: http://<private ip of MEAN.JS>:3000        ==> for MEAN Application
+    Open url: http://<private ip of MEAN.JS>:3000   ==> for MEAN Application
     Open url: http://<private ip of MEAN.JS>:8080   ==> for cAdvisor
     Open url: http://<private ip of MEAN.JS>:8081   ==> for Mongo-express
     
@@ -90,7 +91,6 @@ Step 2: Setup Magento (Application Machine)
     docker image pull bitnami/magento:latest
     docker image pull bitnami/phpmyadmin:latest
     docker image pull labdocker/cadvisor:latest
-    docker image pull navicat/navicatmonitor
 
 2. (Application Machine) Run docker container mariadb by command:
     docker run -dt --name mariadb \
@@ -122,11 +122,8 @@ Step 2: Setup Magento (Application Machine)
     --link mariadb:mariadb \
     bitnami/phpmyadmin:latest
 
-5. (Application Machine) Run Percona container by command
-    docker run -dt --name navicat -p 8092:3000 --link mariadb:mariadb navicat/navicatmonitor
-
-6. (Application Machine) Check logging of Magento:
-    docker logs -f magento
+5. (Application Machine) Check logging of Magento:
+    docker container logs -f magento
     ****************************************************************************************
 magento INFO  Flushing cache...
 magento INFO  Cleaning up cache folders after installing
@@ -143,16 +140,13 @@ nami    INFO  magento successfully initialized
     ****************************************************************************************
 
 8. (Load Test Machine) Open phpmyadmin and get username/password of Magento:
-    Open url: http://<private ip of Magento>:9081   ==> for phpmyadmin   (username:root, password: P@ssw0rd)
+    Open url: http://<private ip of Magento>:8091   ==> for phpmyadmin   (username:root, password: P@ssw0rd)
 
-9. (Load Test Machine) Open Navicat for initial configuration:
-    Open url: http://<private ip of Magento>:9082   ==> for navicat
-
-8. (Load Test Machine) Open url for website
+9. (Load Test Machine) Open url for website
     Open url: http://<private ip of Magento>       ==> for Magento Application
     Open url: http://<private ip of Magento>/admin  ==> for Magento Application (Admin Page) (User: user, Password: bitnami1)
     
 *Remark:
     Case Roll Back:
-        docker stop magento phpmyadmin navicat mariadb
-        docker rm magento phpmyadmin navicat mariadb
+        docker stop magento phpmyadmin mariadb
+        docker rm magento phpmyadmin mariadb
