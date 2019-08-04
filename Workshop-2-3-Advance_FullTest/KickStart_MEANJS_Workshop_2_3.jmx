@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="BaseIP" elementType="Argument">
             <stringProp name="Argument.name">BaseIP</stringProp>
-            <stringProp name="Argument.value">10.21.1.93</stringProp>
+            <stringProp name="Argument.value">10.0.1.44</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="MariaUserName" elementType="Argument">
@@ -287,7 +287,7 @@
         </WhileController>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set1 Config" enabled="true">
-            <stringProp name="filename">/home/ubuntu/jmeter-workshop-062019/jmeter/MEANJSData.csv</stringProp>
+            <stringProp name="filename">/home/ubuntu/jmeter-workshop-062019/Workshop-2-3-Advance_FullTest/MEANJSData.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">firstName,lastName,email,username,password</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>
@@ -722,7 +722,7 @@
         </WhileController>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set2 Config" enabled="true">
-            <stringProp name="filename">/home/ubuntu/jmeter-workshop-062019/jmeter/MEANJSData_Modified.csv</stringProp>
+            <stringProp name="filename">/home/ubuntu/jmeter-workshop-062019/Workshop-2-3-Advance_FullTest/MEANJSData_Modified.csv</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">firstName,lastName,email,username,password,firstName2,lastName2</stringProp>
             <boolProp name="ignoreFirstLine">true</boolProp>

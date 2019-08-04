@@ -18,11 +18,11 @@ Part 2: CSV for MEAN.JS
     MeanPort:       <Verify>
     MegentoPort:    <Verify>
 
-2. (Load Test machine): Verify and Config "User Defined Variables" from tearDown Thread Group: (Test Plan: KickStart_MEANJS_WorkShop_1_5 ==> Thread Group:tearDown Thread Group ==> Define Custom Value for Mongo Express)
+2. (Load Test machine): Verify and Config "User Defined Variables" from tearDown Thread Group: (Test Plan: KickStart_MEANJS_WorkShop_2_1 ==> Thread Group:tearDown Thread Group ==> Define Custom Value for Mongo Express)
     MongoExpressPort: <Verify>
 
 3. (Load Test Machine) Verify threads group property on each object like below:
-    3.1 setup Thread Group: Initial Thread Group (Number of Threads (users):200, Ramp-Up Period (in seconds): 10, Loop Count: 1)
+    3.1 Initial Thread Group: Initial Thread Group (Number of Threads (users):200, Ramp-Up Period (in seconds): 10, Loop Count: 1)
     3.2 Thread Group: SingUp Thread Group (Number of Threads (users):200, Ramp-Up Period (in seconds): 120, Loop Count: Forever)
     3.3 tearDown Thread Group: tearDown Thread Group (Number of Threads (users):1, Ramp-Up Period (in seconds): 1, Loop Count: 1)
 

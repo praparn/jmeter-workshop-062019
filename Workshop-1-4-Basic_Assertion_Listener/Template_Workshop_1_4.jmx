@@ -10,7 +10,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="BaseIP" elementType="Argument">
             <stringProp name="Argument.name">BaseIP</stringProp>
-            <stringProp name="Argument.value">10.21.1.93</stringProp>
+            <stringProp name="Argument.value">10.0.1.44</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="MariaUserName" elementType="Argument">
@@ -187,7 +187,7 @@
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="MAGENTO Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="697941123">X-Powered-By: PHP/7.1.30</stringProp>
+              <stringProp name="2119771055">Powered-By: PHP/7.2.21</stringProp>
             </collectionProp>
             <stringProp name="Assertion.custom_message"></stringProp>
             <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>

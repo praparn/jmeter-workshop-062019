@@ -27,13 +27,12 @@ Part 2: Basic LoadTest for MEAN.JS
 
 
 4. (Application Machine) During load test was run. Check resource consume via cAdvisor, command listening   
-    4.1 Open url: http://<private/public ip>: 8080 and Monitor
-    4.2 Run command below for check result:
-        4.2.1 docker stats
-        4.2.2 top
-        4.2.3 vmstat 2
-        4.2.4 iostat -xtc 2
-        4.2.5 sar -n DEV 2
+    4.1 Run command below for check result:
+        4.1.1 docker stats
+        4.1.2 top
+        4.1.3 vmstat 2
+        4.1.4 iostat -xtc 2
+        4.1.5 sar -n DEV 2
 
 
 5. (Load Test Machine) After pass 5 min stop load test and check result from JMeter
@@ -43,7 +42,7 @@ Part 2: Basic LoadTest for MEAN.JS
     5.4 Listener: Response Time Graph
 
 *Remark:
-    If you have time slot more. Let's try to enable other thread group for test (Enable one-by-one)
+    If you have time slot more. Let's try to enable 200 thread group for test and disable existing thread group (Enable one-by-one)
 
 
 ============================================================================================
@@ -69,13 +68,12 @@ Part 3: Basic LoadTest for MAGENTO
 
 
 4. (Application Machine) During load test was run. Check resource consume via cAdvisor, command listening   
-    4.1 Open url: http://<private/public ip>: 8080 and Monitor
-    4.2 Run command below for check result:
-        4.2.1 docker stats
-        4.2.2 top
-        4.2.3 vmstat 2
-        4.2.4 iostat -xtc 2
-        4.2.5 sar -n DEV 2
+    4.1 Run command below for check result:
+        4.1.1 docker stats
+        4.1.2 top
+        4.1.3 vmstat 2
+        4.1.4 iostat -xtc 2
+        4.1.5 sar -n DEV 2
 
 
 5. (Load Test Machine) After pass 5 min stop load test and check result from JMeter
@@ -85,8 +83,8 @@ Part 3: Basic LoadTest for MAGENTO
     5.4 Listener: Response Time Graph
 
 *Remark:
-    If you have time slot more. Let's try to enable other thread group for test (Enable one-by-one)
+    If you have time slot more. Let's try to enable 30 thread group for test and disable existing thread group (Enable one-by-one)
 
 6. (Load Test Machine) Remove container of magento for reserve resource
-    docker stop magento phpmyadmin navicat mariadb
-    docker rm magento phpmyadmin navicat mariadb
+    docker stop magento phpmyadmin mariadb
+    docker rm magento phpmyadmin mariadb

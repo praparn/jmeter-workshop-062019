@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="BaseIP" elementType="Argument">
             <stringProp name="Argument.name">BaseIP</stringProp>
-            <stringProp name="Argument.value">10.21.1.93</stringProp>
+            <stringProp name="Argument.value">10.0.1.44</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="MariaUserName" elementType="Argument">
@@ -519,9 +519,11 @@ for(int i=3;i&lt;=count;i++)
 	if(i==3)
 	{
 	TempText=vars.get(&quot;FBField_&quot;+i+&quot;_g2&quot;);
-	vars.put(&quot;NEXTURL&quot;,TempText.substring(7,17));
-	vars.put(&quot;NEXTPORT&quot;,TempText.substring(18,22));
-	//log.info(&quot;NEXTURL:&quot;+TempText.getResponseDataAsString().substring(7,17));
+	//Template = http://10.0.1.44:3000/
+	vars.put(&quot;NEXTURL&quot;,TempText.substring(TempText.indexOf(&apos;/&apos;)+2,TempText.indexOf(&apos;:&apos;,5)));
+	vars.put(&quot;NEXTPORT&quot;,TempText.substring(TempText.indexOf(&apos;:&apos;,5)+1,TempText.indexOf(&apos;:&apos;,5)+5));
+	log.info(&quot;NEXTURL:&quot;+TempText.substring(TempText.indexOf(&apos;/&apos;)+2,TempText.indexOf(&apos;:&apos;,5)));
+	log.info(&quot;NEXTPORT:&quot;+TempText.substring(TempText.indexOf(&apos;:&apos;,5)+1,TempText.indexOf(&apos;:&apos;,5)+5));
 	}
 	if(i==4)
 	{
