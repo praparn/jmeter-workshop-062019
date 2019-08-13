@@ -29,7 +29,7 @@ Part 2: Start Performance Test Scenario 2 (Add Listener)
     
     3.2 Listener: Simple Data Writer:
         3.2.1 Name: Export Result to File
-        3.2.2 Filename: ~/jmeter-workshop-062019/Result.csv
+        3.2.2 Filename: ~/jmeter-workshop-062019/Result.csv (Browser)
         3.2.3 Log/Display Only:
             3.2.3.1 [ ] Errors
             3.2.3.2 [x] Successes
@@ -89,7 +89,6 @@ Part 3: Start Performance Test Scenario 3 (Add Assertion/More Listener)
         Apply to: [x] Main sample and sub-samples
         Response Size Field to Test: 
             [x] Full Response
-        Pattern matching Rule: [x] Equals
         Size in bytes: 27000
         Type of Comparison: <=
 

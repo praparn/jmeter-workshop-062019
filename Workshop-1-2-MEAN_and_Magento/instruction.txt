@@ -1,9 +1,9 @@
 ============================================================================================
 Lab Description
 ============================================================================================
-Machine name		                Roles:				    IP Address: (Private)		IP Address: (Public)       SSH
-Training_JMeter_StudentGX_1    	    Load Test Machine	    X.X.X.X 					X.X.X.X     		       ssh -i "XXXX.pem" ubuntu@X.X.X.X
-Training_JMeter_StudentGX_1         Application Machine     X.X.X.X 				    X.X.X.X                    ssh -i "XXXX.pem" ubuntu@X.X.X.X        
+Machine name		            	Roles:					IP Address: (Private)		IP Address: (Public)       SSH
+Training_JMeter_StudentGX_1      Load Test Machine			10.0.1.X 					  X.X.X.X   	             ssh -i "docker_lab.pem" ubuntu@X.X.X.X
+Training_JMeter_StudentGX_1      Application Machine        10.0.1.X 				      X.X.X.X                    ssh -i "docker_lab.pem" ubuntu@X.X.X.X      
 ============================================================================================
 
 Part0 : Start Performance Test (Load Test Machine)
