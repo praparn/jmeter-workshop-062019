@@ -70,3 +70,8 @@ Part 2: Build Image of Docker for JMeter
         Number of Threads (users): 400
         Ramp-Up Periods (in seconds): 10
         Loop Count: 30
+
+*Clean Up (Application Machine)
+docker stop cadvisor webmongo mean db
+docker rm cadvisor webmongo mean db
+docker network rm 
