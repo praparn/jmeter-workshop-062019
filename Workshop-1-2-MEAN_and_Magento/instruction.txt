@@ -35,7 +35,7 @@ exit
 3. (Application Machine) Start create network and basic meanstack by command:
     docker image build -t mean .
     docker container run -dt -p 27017:27017 --name db mongo
-    docker container run -dt -p 3000:3000 -p 35729:35729 --link db:db_1 --name mean mean
+    docker container run -dt -p 3000:3000 -p 35729:35729 --link db:db_1 --name mean labdocker/mean:lab
     docker container ls
     docker logs -f mean
 

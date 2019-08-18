@@ -85,6 +85,6 @@ Part 3: Basic LoadTest for MAGENTO
 *Remark:
     If you have time slot more. Let's try to enable 30 thread group for test and disable existing thread group (Enable one-by-one)
 
-6. (Load Test Machine) Remove container of magento for reserve resource
+6. (Application Server) Remove container of magento for reserve resource
     docker stop magento phpmyadmin mariadb
     docker rm magento phpmyadmin mariadb
